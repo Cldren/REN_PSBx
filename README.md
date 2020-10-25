@@ -8,6 +8,9 @@ Hope you guys we'll find interesting information and don't hesitate if you find 
 
 Have a good read !
 
-# Repository structures
+# Updates
 
-I will put information about our 2 courses in R and Mathematics. (in construction)
+I will put information about our 2 courses in R and Mathematics.
+
+Last updates : 25/10/2020 
+I just upload the first version of the comparison between R and Python.
