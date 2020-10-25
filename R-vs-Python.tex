@@ -1,0 +1,1684 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+  \usepackage{amssymb}
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={R vs Python},
+  pdfauthor={Claude REN},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\newenvironment{knitrout}{\setlength{\topsep}{0mm}}{}
+%% See: https://bookdown.org/yihui/rmarkdown-cookbook/multi-column-layout.html
+%% grantmcdermott GitHub/two-col-test
+\newenvironment{columns}[1][]{}{}
+%%
+\newenvironment{column}[1]{\begin{minipage}[t]{#1}\ignorespaces}{%
+\end{minipage}
+\ifhmode\unskip\fi
+\aftergroup\useignorespacesandallpars}
+%%
+\def\useignorespacesandallpars#1\ignorespaces\fi{%
+#1\fi\ignorespacesandallpars}
+%%
+\makeatletter
+\def\ignorespacesandallpars{%
+  \@ifnextchar\par
+    {\expandafter\ignorespacesandallpars\@gobble}%
+    {}%
+}
+\makeatother
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{R vs Python}
+\author{Claude REN}
+\date{10/22/2020}
+
+\begin{document}
+\maketitle
+
+\hypertarget{introduction}{%
+\subsection{Introduction}\label{introduction}}
+
+In this .pdf you will find all the basics of R and its equivalence in
+Python. The purpose is to provide a document where you can easily find
+useful information when working on R and Python.
+
+\hypertarget{basic-operator}{%
+\subsection{Basic operator}\label{basic-operator}}
+
+\begin{column}{0.48\textwidth}
+
+\hypertarget{calculate-with-r}{%
+\subsubsection{Calculate with R}\label{calculate-with-r}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# No import}
+\DecValTok{10}\SpecialCharTok{*}\NormalTok{(}\DecValTok{1}\SpecialCharTok{+}\DecValTok{3}\FloatTok{{-}2.4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 100
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{10}\SpecialCharTok{**}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 100
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sqrt}\NormalTok{(}\DecValTok{100}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pi}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.141593
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cos}\NormalTok{(pi)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{exp}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.718282
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{log}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{round}\NormalTok{(}\FloatTok{2.5435}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.54
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{a }\OtherTok{\textless{}{-}} \DecValTok{100}
+\FunctionTok{print}\NormalTok{(a)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 100
+\end{verbatim}
+
+\end{column}
+
+\begin{column}{0.04\textwidth}
+
+~
+
+\end{column}
+
+\begin{column}{0.48\textwidth}
+
+\hypertarget{calculate-with-python}{%
+\subsubsection{Calculate with Python}\label{calculate-with-python}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+\DecValTok{10}\OperatorTok{*}\NormalTok{(}\DecValTok{1}\OperatorTok{+}\DecValTok{3}\OperatorTok{{-}}\FloatTok{2.4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 16.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{10}\OperatorTok{\^{}}\DecValTok{2}        \CommentTok{\# Not correct !}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{10}\OperatorTok{**}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 100
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.sqrt(}\DecValTok{100}\NormalTok{)   }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 10.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.pi          }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 3.141592653589793
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.cos(np.pi)     }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -1.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.exp(}\DecValTok{1}\NormalTok{)      }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 2.718281828459045
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.log(}\DecValTok{1}\NormalTok{)      }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 0.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{round}\NormalTok{(}\FloatTok{2.543534}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 2.54
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{a }\OperatorTok{=} \DecValTok{100}
+\BuiltInTok{print}\NormalTok{(a)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 100
+\end{verbatim}
+
+\end{column}
+
+\newline
+
+\begin{column}{0.48\textwidth}
+
+\hypertarget{vector-operations-with-r}{%
+\subsubsection{Vector operations with
+R}\label{vector-operations-with-r}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{30}\NormalTok{)}
+\NormalTok{v}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10 20 30
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{length}\NormalTok{(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{2}\SpecialCharTok{*}\NormalTok{v}\SpecialCharTok{+}\DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 21 41 61
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v}\SpecialCharTok{**}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 100 400 900
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{log}\NormalTok{(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.302585 2.995732 3.401197
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{w }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{)}
+\NormalTok{v}\SpecialCharTok{{-}}\NormalTok{w}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  9 18 27
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v}\SpecialCharTok{*}\NormalTok{w}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10 40 90
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v}\SpecialCharTok{/}\NormalTok{w}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10 10 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v}\SpecialCharTok{\%*\%}\NormalTok{w}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      [,1]
+## [1,]  140
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 60
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 20
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{min}\NormalTok{(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{max}\NormalTok{(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 30
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sd}\NormalTok{(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{median}\NormalTok{(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 20
+\end{verbatim}
+
+\end{column}
+
+\begin{column}{0.04\textwidth}
+
+~
+
+\end{column}
+
+\begin{column}{0.48\textwidth}
+
+\hypertarget{vector-operations-with-python}{%
+\subsubsection{Vector operations with
+Python}\label{vector-operations-with-python}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v }\OperatorTok{=}\NormalTok{ np.array([}\DecValTok{10}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{30}\NormalTok{])}
+\NormalTok{v}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([10, 20, 30])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{len}\NormalTok{(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{2}\OperatorTok{*}\NormalTok{v}\OperatorTok{+}\DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([21, 41, 61])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v}\OperatorTok{**}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([100, 400, 900])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.log(v).}\BuiltInTok{round}\NormalTok{(}\DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([2.3026, 2.9957, 3.4012])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{w }\OperatorTok{=}\NormalTok{ np.array([}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{])}
+\NormalTok{v}\OperatorTok{{-}}\NormalTok{w}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([ 9, 18, 27])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v}\OperatorTok{*}\NormalTok{w}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([10, 40, 90])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v}\OperatorTok{/}\NormalTok{w}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([10., 10., 10.])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.dot(v,w)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 140
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{sum}\NormalTok{(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 60
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.average(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 20.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{min}\NormalTok{(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{max}\NormalTok{(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 30
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.std(v, ddof }\OperatorTok{=} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 10.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.median(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 20.0
+\end{verbatim}
+
+\end{column}
+
+\newline
+
+For the standard deviation, the formula used in numpy with std() is
+different from the one in R with sd().
+
+\begin{center}
+
+$\sigma_p = \sqrt{\frac{1}{n}\sum_{i=1}^n (x_i-\overline{x})^2} = \sqrt{\frac{1}{n}\sum_{i=1}^n x_i^2 - \overline{x}^2}$
+
+$\sigma_R = \sqrt{\frac{1}{n-1}\sum_{i=1}^n (x_i-\overline{x})^2} = \sqrt{\frac{1}{n-1}\sum_{i=1}^n x_i^2 - \overline{x}^2}$
+
+\end{center}
+
+In order to find the same result in Python as in R, you have to precise
+ddof = 1 in Python.
+
+\begin{column}{0.48\textwidth}
+
+\hypertarget{vector-manipulation-with-r}{%
+\subsubsection{Vector manipulation with
+R}\label{vector-manipulation-with-r}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{u }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{)}
+\NormalTok{u[}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{u[}\DecValTok{3}\SpecialCharTok{:}\DecValTok{5}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3 4 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{u[}\DecValTok{5}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{50}
+\NormalTok{u[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{] }\OtherTok{\textless{}{-}} \DecValTok{1}
+\NormalTok{u}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  1  1  1  4 50
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{,}\DecValTok{20}\NormalTok{,}\DecValTok{30}\NormalTok{,}\DecValTok{30}\NormalTok{,}\DecValTok{60}\NormalTok{,}\DecValTok{50}\NormalTok{)}
+\NormalTok{w }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{20}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DecValTok{31}\NormalTok{,}\DecValTok{31}\NormalTok{,}\DecValTok{61}\NormalTok{,}\DecValTok{51}\NormalTok{)}
+\NormalTok{u }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{ ,}\DecValTok{5}\NormalTok{ ,}\DecValTok{5}\NormalTok{ ,}\DecValTok{32}\NormalTok{,}\DecValTok{62}\NormalTok{,}\DecValTok{49}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\end{column}
+
+\begin{column}{0.04\textwidth}
+
+~
+
+\end{column}
+
+\begin{column}{0.48\textwidth}
+
+\hypertarget{vector-manipulation-with-python}{%
+\subsubsection{Vector manipulation with
+Python}\label{vector-manipulation-with-python}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{u }\OperatorTok{=}\NormalTok{ np.array([}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{])}
+\NormalTok{u[}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{u[}\DecValTok{2}\NormalTok{:}\DecValTok{5}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([3, 4, 5])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{u[}\DecValTok{4}\NormalTok{] }\OperatorTok{=} \DecValTok{50}
+\NormalTok{u[}\DecValTok{0}\NormalTok{:}\DecValTok{3}\NormalTok{] }\OperatorTok{=} \DecValTok{1}
+\NormalTok{u}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([ 1,  1,  1,  4, 50])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v }\OperatorTok{=}\NormalTok{ np.array([}\DecValTok{10}\NormalTok{,}\DecValTok{20}\NormalTok{,}\DecValTok{30}\NormalTok{,}\DecValTok{30}\NormalTok{,}\DecValTok{60}\NormalTok{,}\DecValTok{50}\NormalTok{])}
+\NormalTok{w }\OperatorTok{=}\NormalTok{ np.array([}\DecValTok{20}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DecValTok{31}\NormalTok{,}\DecValTok{31}\NormalTok{,}\DecValTok{61}\NormalTok{,}\DecValTok{51}\NormalTok{])}
+\NormalTok{u }\OperatorTok{=}\NormalTok{ np.array([}\DecValTok{5}\NormalTok{ ,}\DecValTok{5}\NormalTok{ ,}\DecValTok{5}\NormalTok{ ,}\DecValTok{32}\NormalTok{,}\DecValTok{62}\NormalTok{,}\DecValTok{49}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\end{column}
+
+\newline
+
+\hypertarget{equivalence-str-r-in-python}{%
+\paragraph{Equivalence str() R in Python
+:}\label{equivalence-str-r-in-python}}
+
+The function str() in R show you the structure of your variable, it can
+be very useful and you'll will find no equivalent function in Python.
+The only way to get the same information is to create a function :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(u)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  num [1:6] 5 5 5 32 62 49
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ pandas }\ImportTok{as}\NormalTok{ pd}
+\NormalTok{du }\OperatorTok{=}\NormalTok{ pd.DataFrame(u)}
+\BuiltInTok{print}\NormalTok{(}\BuiltInTok{str}\NormalTok{(du.info()) }\OperatorTok{+} \StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\OperatorTok{+} \BuiltInTok{str}\NormalTok{(u))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## <class 'pandas.core.frame.DataFrame'>
+## RangeIndex: 6 entries, 0 to 5
+## Data columns (total 1 columns):
+##  #   Column  Non-Null Count  Dtype
+## ---  ------  --------------  -----
+##  0   0       6 non-null      int64
+## dtypes: int64(1)
+## memory usage: 176.0 bytes
+## None
+## [ 5  5  5 32 62 49]
+\end{verbatim}
+
+You can see above that the str() function used in the python chunks is
+not at all the same function as in R. In Python it is used to transform
+non string type to string character. \newline \newline The one below is
+for data.frame, keep it for future usage :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ rstr(df): }
+\NormalTok{    structural\_info }\OperatorTok{=}\NormalTok{ pd.DataFrame(index}\OperatorTok{=}\NormalTok{df.columns)}
+\NormalTok{    structural\_info[}\StringTok{\textquotesingle{}unique\_len\textquotesingle{}}\NormalTok{] }\OperatorTok{=}\NormalTok{ df.}\BuiltInTok{apply}\NormalTok{(}\KeywordTok{lambda}\NormalTok{ x: }\BuiltInTok{len}\NormalTok{(x.unique())).values}
+\NormalTok{    structural\_info[}\StringTok{\textquotesingle{}unique\_val\textquotesingle{}}\NormalTok{] }\OperatorTok{=}\NormalTok{ df.}\BuiltInTok{apply}\NormalTok{(}\KeywordTok{lambda}\NormalTok{ x: [x.unique()]).values}
+    \BuiltInTok{print}\NormalTok{(df.shape)}
+    \ControlFlowTok{return}\NormalTok{ structural\_info  }
+\NormalTok{rstr(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\pagebreak
+
+\begin{column}{0.48\textwidth}
+
+\hypertarget{vector-manipulation-with-r-1}{%
+\subsubsection{Vector manipulation with
+R}\label{vector-manipulation-with-r-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{options}\NormalTok{(}\AttributeTok{width =} \DecValTok{30}\NormalTok{)}
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(u))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{u\_ }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\ConstantTok{NA}\NormalTok{,u,}\ConstantTok{NA}\NormalTok{,}\ConstantTok{NA}\NormalTok{)}
+\NormalTok{u\_}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] NA  5  5  5 32 62 49 NA NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(u\_))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{range}\NormalTok{(u)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  5 62
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{range}\NormalTok{(u\_ , }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  5 62
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{quantile}\NormalTok{(u)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    0%   25%   50%   75%  100% 
+##  5.00  5.00 18.50 44.75 62.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(u)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median 
+##    5.00    5.00   18.50 
+##    Mean 3rd Qu.    Max. 
+##   26.33   44.75   62.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sd}\NormalTok{(u\_, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 25.23225
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cor}\NormalTok{(v,w)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.9433573
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sort}\NormalTok{(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 10 20 30 30 50 60
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sort}\NormalTok{(v, }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 60 50 30 30 20 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{order}\NormalTok{(w)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2 1 3 4 6 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rank}\NormalTok{(w, }\AttributeTok{ties.method=}\StringTok{"min"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2 1 3 3 6 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rank}\NormalTok{(w, }\AttributeTok{ties.method=}\StringTok{"max"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2 1 4 4 6 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{pmax}\NormalTok{(v,w,u)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 20 20 31 32 62 51
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{pmin}\NormalTok{(v,w,u)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  5  5  5 30 60 49
+\end{verbatim}
+
+\end{column}
+
+\begin{column}{0.04\textwidth}
+
+~
+
+\end{column}
+
+\begin{column}{0.48\textwidth}
+
+\hypertarget{vector-manipulation-with-python-1}{%
+\subsubsection{Vector manipulation with
+Python}\label{vector-manipulation-with-python-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.set\_printoptions(}
+\NormalTok{    suppress}\OperatorTok{=}\VariableTok{True}\NormalTok{,linewidth}\OperatorTok{=}\DecValTok{40}\NormalTok{)}
+\NormalTok{du.isna().}\BuiltInTok{sum}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 0    0
+## dtype: int64
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{u\_ }\OperatorTok{=}\NormalTok{ np.append(u,np.nan)}
+\NormalTok{u\_ }\OperatorTok{=}\NormalTok{ np.append(np.nan, u\_)}
+\NormalTok{u\_ }\OperatorTok{=}\NormalTok{ np.append(u\_, np.nan)}
+\NormalTok{u\_}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([nan,  5.,  5.,  5., 32., 62.,
+##        49., nan, nan])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{du\_ }\OperatorTok{=}\NormalTok{ pd.DataFrame(u\_)}
+\NormalTok{du\_.isna().}\BuiltInTok{sum}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 0    3
+## dtype: int64
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(}\BuiltInTok{str}\NormalTok{(}\BuiltInTok{min}\NormalTok{(u)) }\OperatorTok{+} \StringTok{" "} \OperatorTok{+} \BuiltInTok{str}\NormalTok{(}\BuiltInTok{max}\NormalTok{(u)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 5 62
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{print}\NormalTok{(}\BuiltInTok{str}\NormalTok{(np.nanmin(u\_)) }\OperatorTok{+} 
+  \StringTok{" "} \OperatorTok{+} \BuiltInTok{str}\NormalTok{(np.nanmax(u\_)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 5.0 62.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.quantile(u, q }\OperatorTok{=} \FloatTok{0.5}\NormalTok{) }\CommentTok{\# q represent the \%}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 18.5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{du.describe()   }\CommentTok{\# It works like summary()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.nanstd(u\_, ddof }\OperatorTok{=} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 25.232254490367417
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.corrcoef(v,w)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([[1.       , 0.9433573],
+##        [0.9433573, 1.       ]])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.sort(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([10, 20, 30, 30, 50, 60])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{{-}}\NormalTok{np.sort(}\OperatorTok{{-}}\NormalTok{v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([60, 50, 30, 30, 20, 10])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.argsort(w)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([1, 0, 2, 3, 5, 4])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{[}\BuiltInTok{sorted}\NormalTok{(w).index(x) }\ControlFlowTok{for}\NormalTok{ x }\KeywordTok{in}\NormalTok{ w]}
+\CommentTok{\# No easy equivalence for the "max"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1, 0, 2, 2, 5, 4]
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{z }\OperatorTok{=}\NormalTok{ np.maximum(u,v)}
+\NormalTok{np.maximum(z,w) }\CommentTok{\# Same with minimum()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([20, 20, 31, 32, 62, 51])
+\end{verbatim}
+
+\end{column}
+
+\newline
+
+\begin{column}{0.48\textwidth}
+
+\hypertarget{vector-manipulation-with-r-2}{%
+\subsubsection{Vector manipulation with
+R}\label{vector-manipulation-with-r-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{options}\NormalTok{(}\AttributeTok{width =} \DecValTok{30}\NormalTok{)}
+\FunctionTok{cumsum}\NormalTok{(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  10  30  60  90 150 200
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cumprod}\NormalTok{(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.00e+01 2.00e+02 6.00e+03
+## [4] 1.80e+05 1.08e+07 5.40e+08
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cummax}\NormalTok{(w)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 20 20 31 31 61 61
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cummin}\NormalTok{(w)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 20 10 10 10 10 10
+\end{verbatim}
+
+\hypertarget{boolean-operation-with-r}{%
+\subsubsection{Boolean operation with
+R}\label{boolean-operation-with-r}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{a }\OtherTok{\textless{}{-}} \DecValTok{1} 
+\NormalTok{b }\OtherTok{\textless{}{-}} \DecValTok{2}
+\NormalTok{(a }\SpecialCharTok{==} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(a }\SpecialCharTok{==}\NormalTok{ b)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(a }\SpecialCharTok{\textless{}=}\NormalTok{ b)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{A }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{,}\ConstantTok{TRUE}\NormalTok{,}\ConstantTok{FALSE}\NormalTok{,}\ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{B }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{,}\ConstantTok{FALSE}\NormalTok{,}\ConstantTok{TRUE}\NormalTok{,}\ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{A }\SpecialCharTok{\&}\NormalTok{ B}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  TRUE FALSE FALSE FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{A }\SpecialCharTok{|}\NormalTok{ B}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  TRUE  TRUE  TRUE FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{!}\NormalTok{A}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE FALSE  TRUE  TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{c }\OtherTok{\textless{}{-}}\NormalTok{ (a }\SpecialCharTok{\textgreater{}}\NormalTok{ b)}
+\NormalTok{c}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{,}\DecValTok{20}\NormalTok{,}\DecValTok{30}\NormalTok{,}\DecValTok{30}\NormalTok{,}\DecValTok{60}\NormalTok{,}\DecValTok{50}\NormalTok{)}
+\NormalTok{t }\OtherTok{\textless{}{-}}\NormalTok{ (v }\SpecialCharTok{\textgreater{}} \DecValTok{30}\NormalTok{)}
+\NormalTok{t}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE FALSE FALSE FALSE
+## [5]  TRUE  TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{w }\OtherTok{\textless{}{-}}\NormalTok{ v[(v}\SpecialCharTok{\textgreater{}}\DecValTok{30}\NormalTok{)]}
+\NormalTok{w}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 60 50
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{which}\NormalTok{(v }\SpecialCharTok{==} \DecValTok{30}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3 4
+\end{verbatim}
+
+\end{column}
+
+\begin{column}{0.04\textwidth}
+
+~
+
+\end{column}
+
+\begin{column}{0.48\textwidth}
+
+\hypertarget{vector-manipulation-with-python-2}{%
+\subsubsection{Vector manipulation with
+Python}\label{vector-manipulation-with-python-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.cumsum(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([ 10,  30,  60,  90, 150, 200])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.cumprod(v)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([       10,       200,      6000,
+##           180000,  10800000, 540000000])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dw }\OperatorTok{=}\NormalTok{ pd.DataFrame(w)}
+\NormalTok{dw.cummax().transpose()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     0   1   2   3   4   5
+## 0  20  20  31  31  61  61
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dw.cummin().transpose()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     0   1   2   3   4   5
+## 0  20  10  10  10  10  10
+\end{verbatim}
+
+\hypertarget{boolean-operations-with-python}{%
+\subsubsection{Boolean operations with
+Python}\label{boolean-operations-with-python}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{bool}\NormalTok{(a }\OperatorTok{==} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## True
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{bool}\NormalTok{(a }\OperatorTok{==}\NormalTok{ b)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## False
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{bool}\NormalTok{(a }\OperatorTok{\textless{}=}\NormalTok{ b)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## True
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{A }\OperatorTok{=}\NormalTok{ np.array([}\VariableTok{True}\NormalTok{,}\VariableTok{True}\NormalTok{,}\VariableTok{False}\NormalTok{,}\VariableTok{False}\NormalTok{])}
+\NormalTok{B }\OperatorTok{=}\NormalTok{ np.array([}\VariableTok{True}\NormalTok{,}\VariableTok{False}\NormalTok{,}\VariableTok{True}\NormalTok{,}\VariableTok{False}\NormalTok{])}
+\NormalTok{np.logical\_and(A, B)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([ True, False, False, False])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.logical\_or(A, B)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([ True,  True,  True, False])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.logical\_not(A)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([False, False,  True,  True])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{c }\OperatorTok{=}\NormalTok{ np.array(a }\OperatorTok{\textgreater{}}\NormalTok{ b)}
+\NormalTok{c}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array(False)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v }\OperatorTok{=}\NormalTok{ np.array([}\DecValTok{10}\NormalTok{,}\DecValTok{20}\NormalTok{,}\DecValTok{30}\NormalTok{,}\DecValTok{30}\NormalTok{,}\DecValTok{60}\NormalTok{,}\DecValTok{50}\NormalTok{])}
+\NormalTok{t }\OperatorTok{=}\NormalTok{ np.array([v }\OperatorTok{\textgreater{}} \DecValTok{30}\NormalTok{])}
+\NormalTok{t}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([[False, False, False, False,
+##          True,  True]])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{w }\OperatorTok{=}\NormalTok{ v[(v}\OperatorTok{\textgreater{}}\DecValTok{30}\NormalTok{)]}
+\NormalTok{w}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([60, 50])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.where(v }\OperatorTok{==} \DecValTok{30}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (array([2, 3]),)
+\end{verbatim}
+
+\end{column}
+
+\newline
+
+\begin{column}{0.48\textwidth}
+
+\hypertarget{boolean-operations-with-r}{%
+\subsubsection{Boolean operations with
+R}\label{boolean-operations-with-r}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{which}\NormalTok{(v }\SpecialCharTok{==} \FunctionTok{max}\NormalTok{(v))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{which}\NormalTok{(v }\SpecialCharTok{==} \FunctionTok{min}\NormalTok{(v))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{s }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{*}\NormalTok{t}
+\NormalTok{s}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0 0 0 0 1 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{,}\DecValTok{20}\NormalTok{,}\DecValTok{70}\NormalTok{,}\DecValTok{30}\NormalTok{,}\DecValTok{60}\NormalTok{,}\DecValTok{50}\NormalTok{)}
+\FunctionTok{all}\NormalTok{(v }\SpecialCharTok{\textgreater{}} \DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] TRUE
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{any}\NormalTok{(v }\SpecialCharTok{\textless{}} \DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] FALSE
+\end{verbatim}
+
+\end{column}
+
+\begin{column}{0.04\textwidth}
+
+~
+
+\end{column}
+
+\begin{column}{0.48\textwidth}
+
+\hypertarget{boolean-operations-with-python-1}{%
+\subsubsection{Boolean operations with
+Python}\label{boolean-operations-with-python-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.where(v }\OperatorTok{==} \BuiltInTok{max}\NormalTok{(v))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (array([4]),)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{np.where(v }\OperatorTok{==} \BuiltInTok{min}\NormalTok{(v))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (array([0]),)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{s }\OperatorTok{=} \DecValTok{1}\OperatorTok{*}\NormalTok{t}
+\NormalTok{s}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## array([[0, 0, 0, 0, 1, 1]])
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v }\OperatorTok{=}\NormalTok{ np.array([}\DecValTok{10}\NormalTok{,}\DecValTok{20}\NormalTok{,}\DecValTok{70}\NormalTok{,}\DecValTok{30}\NormalTok{,}\DecValTok{60}\NormalTok{,}\DecValTok{50}\NormalTok{])}
+\BuiltInTok{all}\NormalTok{(v }\OperatorTok{\textgreater{}} \DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## True
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{any}\NormalTok{(v }\OperatorTok{\textless{}} \DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## False
+\end{verbatim}
+
+\end{column}
+
+\newline
+
+\hypertarget{conclusion}{%
+\subsection{Conclusion}\label{conclusion}}
+
+This conclude the document for now, I'll try to update it if I find
+useful tips. Hope this will help you in the future.
+
+\end{document}
