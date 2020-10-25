@@ -1,0 +1,44 @@
+---
+title: "Multi_col_pdf"
+# Credit to :
+# grantmcdermott/two-col-test
+# For the two columns setup
+author: "Claude REN"
+date: "10/25/2020"
+output:
+  pdf_document:
+    includes:
+      in_header:  header.tex
+    
+---
+
+## This is just an example
+
+:::::: {.columns}
+::: {.column width="48%" data-latex="{0.48\textwidth}"}
+### Calculate with R
+
+```{r, eval=TRUE}
+a <- 1
+print(a)
+```
+:::
+::: {.column width="4%" data-latex="{0.04\textwidth}"}
+\ 
+<!-- an empty Div (with a white space), serving as
+a column separator -->
+:::
+:::::: {.column width="48%" data-latex="{0.48\textwidth}"}
+
+### Calculate with Python
+
+```{python, eval=TRUE}
+a = 1
+print(a)
+```
+:::
+::::::
+
+\newline
+
+## This is the end of the example
