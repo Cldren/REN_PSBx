@@ -4,7 +4,7 @@ Hello guys,
 
 This is my repository dedicated to my fellow classmate of my Data Management program at PSB.
 
-Hope you guys we'll find interesting information and don't hesitate if you find error or idea of amelioration. 
+Hope you guys we'll find interesting information and don't hesitate if you find error or idea for amelioration. 
 
 Have a good read !
 
@@ -12,7 +12,11 @@ Have a good read !
 
 I will put information about our 2 courses in R and Mathematics.
 
-Last updates : 25/10/2020
+Last updates : 07/11/2020
+
+Upload of the presentation of the first package on ggplot2, have a good read.
+
+25/10/2020
 
 I just upload the first version of the comparison between R and Python.
 

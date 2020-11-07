@@ -1,1 +1,389 @@
+---
+title: "ggplot2"
+author: "Claude REN"
+date: "10/31/2020"
+output:
+  pdf_document:
+    includes:
+      in_header: header.tex
+---
 
+## Introduction
+
+We are going to study the library ggplot2, which is one of the most known library for graphical representation. For that we are going to use a dataset from : https://perso.telecom-paristech.fr/eagan/class/igr204/datasets
+\newline
+It's a dataset on cars model, with information about the weight, speed and so on. This is a little glimpse of it :
+
+```{r}
+# Path of the file
+file <- "cars.csv"
+
+# Load the speed dating dataset
+cars2 <- read.csv(file, sep = ";")
+
+# Preview of the table
+head(cars2)
+```
+
+The purpose is to show how the package work, what you can do with it and what are its limit. The relevance of the dataset and what I'm going to plot is not the main focus, it only provides me enough information in order to show some of the function of ggplot2.
+\newline
+Before beginning by talking about why ggplot2 and what about the alternatives, I'd like to precise that it is entirely inspired by **_Selva Prabhakaran's_** tutorial on the subject :
+\newline
+http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html
+\newline
+http://r-statistics.co/Complete-Ggplot2-Tutorial-Part2-Customizing-Theme-With-R-Code.html
+
+
+## Alternatives
+
+*Credit to Roger Peng : https://github.com/rdpeng/CourseraLectures/blob/master/ggplot2_part1.pptx*
+
+We are going to use data that are already initialized in R :
+
+:::::: {.columns}
+::: {.column width="48%" data-latex="{0.48\textwidth}"}
+```{r}
+head(cars)
+```
+:::
+::: {.column width="4%" data-latex="{0.04\textwidth}"}
+\ 
+:::
+:::::: {.column width="48%" data-latex="{0.48\textwidth}"}
+```{r}
+head(EuStockMarkets)
+```
+:::
+::::::
+
+\newline
+
+### Base plotting system
+
+Let's begin with the basics, the base plotting system, it's the integrated plotting tool of R. Like the many basics tools in R, its syntax is very minimalist and easy. Let's take a look at the example :
+
+```{r}
+plot(cars)
+plot(EuStockMarkets)
+plot(cars2$Weight,cars2$Displacement)
+```
+
+The results is not bad, you get what you look for, which is a representation of your set but in terms of customization and for dataframe type of data this is not what you want to use. The syntax become much more complicated and it is not intuitive either when you try to go further and look for better looking results.
+
+:::::: {.columns}
+::: {.column width="48%" data-latex="{0.48\textwidth}"}
+* Pro :
+  + Short and simple syntax
+  + Useful for quick visualization
+:::
+::: {.column width="4%" data-latex="{0.04\textwidth}"}
+\ 
+:::
+:::::: {.column width="48%" data-latex="{0.48\textwidth}"}
+* Cons :
+  + Hard to customize
+  + No update or extensions
+:::
+::::::
+
+\newline
+
+### Lattice
+
+Lattice is a far better plotting library than the base plot, you can have much more customization. For basic plot the syntax is not that hard and the basic plot provides you a more colorful result even without adding options.
+
+
+```{r, message=FALSE}
+library(lattice)
+xyplot(cars$dist ~ cars$speed)
+xyplot(EuStockMarkets)
+xyplot(Displacement ~ Weight,
+       data = cars2)
+```
+
+The results are better than the base plotting system, and the syntax is not much more complicated, important to point out that Lattice is very good to visualize time series as we can see with the stock markets one. In terms of customization, Lattice can be quite good and it can do many things that ggplot2. Many would choose one over the other, but both have their strengths and can be used as complement of each other. The only thing that put Ggplot2 at the top is the "adding" system which we'll see further down.
+
+:::::: {.columns}
+::: {.column width="48%" data-latex="{0.48\textwidth}"}
+* Pros :
+  + Good for statistical graphics
+  + Good for panels representation
+  + Good for time series
+  + Have extension
+:::
+::: {.column width="4%" data-latex="{0.04\textwidth}"}
+\ 
+:::
+:::::: {.column width="48%" data-latex="{0.48\textwidth}"}
+* Cons : 
+  + No major developments
+  + Difficult to custom a plot
+  + Specify everything in a single function call
+:::
+::::::
+
+\newline
+
+### ggplot2
+
+Finally it's time to talk about Ggplot2, the most used and known graphical library of R. As for the other 2, we will first look at the example, and you'll see that there is something strange :
+
+```{r, message=FALSE}
+library(ggplot2)
+ggplot(cars, aes(y=dist, x=speed)) + geom_point()
+ggplot(cars2, aes(x=Weight, y=Displacement)) + geom_point()
+```
+
+What is strange here, is that I didn't plot the time series data of the stock markets. The reason is simple, Ggplot2 is a graphical library dedicated to dataframe, so in order to represent time series, you have to transform it in a dataframe as below :
+```{r,error=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+```
+
+```{r, message=FALSE}
+EuStockMarkets %>%
+  as.data.frame() %>%
+  mutate(sDate=as.Date(seq(1,1860,1), origin="1991-05-10")) %>%
+  pivot_longer(-sDate) %>%
+  ggplot(aes(x=sDate, y=value, color=name)) +
+  geom_line()
+```
+
+* Little explanation of the syntax here, we used the dplyr and tidyr packages :
+  + %>% : This means that you apply the function after to the element before, cars %>% head() = head(cars)
+  + mutate() : Create, modify or delete columns of a dataset, here we used it to create a column sDate
+  + as.Date() : Convert, here seq(1,1860,1), to a format similar to origin
+  + seq() : Generate a sequence from 1 to 1860 by 1, 1860 represent the number of line, and one line is a day so by one. So here the we transform the sequence to a date starting from 1991-05-10
+  + pivot_longer() : Transform columns in rows, here sDates is the columns to pivot, and by default it will create a columns "name" and "value"
+
+***
+
+As you can see, it is doable to plot time series with ggplot2 with not too much trouble but compared to Lattice or the base plotting system it is a bit trickier and it is important to know how to transform your data into dataframe and to know some functions like those above. 
+\newline
+Ggplot2 can do much more, even though for those example it's difficult to witness the strength of it you can still see a glimpse of what you can do in terms of customization. Moreover we saw a bit of the "adding" syntax, which is very convenient because you don't have to write everything in a single syntax like in Lattice for example. 
+
+:::::: {.columns}
+::: {.column width="48%" data-latex="{0.48\textwidth}"}
+* Pros :
+  + Based on Grammar of Graphics
+  + Provides good defaults
+  + Provides controls for almost every aspect of the plot
+  + Active development
+:::
+::: {.column width="4%" data-latex="{0.04\textwidth}"}
+\ 
+:::
+:::::: {.column width="48%" data-latex="{0.48\textwidth}"}
+* Cons : 
+  + Complex syntax even for easy plot
+  + High entry threshold
+:::
+::::::
+
+\newline
+
+As showed below you can have a multitude of options so it can be a bit overwhelming at the beginning but in term of usability, the syntax is more intuitive even though it seems complex.
+
+```{r, error=FALSE, eval=FALSE}
+ggplot(data, aes(x = x, y = y, color = color, size = size), alpha = '')+
+  geom_()+
+  scale_x_()+
+  scale_y_()+
+  scale_color_()+
+  scale_size_()+
+  coord_()+
+  facet_()+
+  labs(title = '', subtitle = '', caption = '')+
+  theme_minimal(base_family = '', base_size = '')+
+  theme(
+    legend.position = '',
+    plot.background = element_rect(fill = ''),
+    plot.title = element_text(),
+    plot.subtitle = element_text(),
+    plot.caption = element_text(),
+    plot.margin = unit()
+  )
+```
+
+## Study case
+
+
+```{r, message=FALSE}
+# Initialization of the plot
+g <- ggplot(cars2, aes(x=Weight, y=Displacement))
+
+# Adding points
+g <- g + geom_point(col="blue", size=3)
+
+# Changing x and y axis
+g <- g + coord_cartesian(ylim=c(100, 500), xlim=c(2500, 5000))
+
+# Adding linear model
+g <- g + geom_smooth(method="lm")
+
+# Adding title and legends
+g <- g + labs(title="Displacement by weight", subtitle="From cars2 dataset", 
+              y="Displacement", x="Weight", caption="cars2")
+
+# Customize axis
+g <- g + scale_x_continuous(breaks=seq(2500, 5000, 250))
+
+# Changing theme
+g <- g + theme_classic() + labs(subtitle="Classic Theme")
+
+# Plotting
+plot(g)
+```
+
+
+## Theme customization syntax
+
+```{r, message=FALSE}
+g <- ggplot(cars2, aes(x=Weight, y=Displacement))
+g <- g + labs(title="Displacement by weight", subtitle="From cars2 dataset",
+              y="Displacement", x="Weight", caption="cars2")
+
+# You can use data to customize the color and the size of your point
+g <- g + geom_point(aes(col=Origin, size=Acceleration))
+
+# Adding a non-linear model
+g <- g + geom_smooth(method="loess", se=F)
+
+# Customization of the theme
+g <- g + theme(plot.title=element_text(size=20, 
+                                    face="bold",
+                                    color="salmon",
+                                    hjust=0.5,
+                                    lineheight=1.2),  # title
+            plot.subtitle=element_text(size=15,
+                                       face="bold",
+                                       hjust=0.5),  # subtitle
+            plot.caption=element_text(size=15),  # caption
+            axis.title.x=element_text(vjust=0,  
+                                      size=15),  # X axis title
+            axis.title.y=element_text(size=15),  # Y axis title
+            axis.text.x=element_text(size=10, 
+                                     angle = 30,
+                                     vjust=.5),  # X axis text
+            axis.text.y=element_text(size=10))  # Y axis text
+
+plot(g)
+```
+```{r, message=FALSE}
+library(ggpubr)
+g <- ggplot(cars2, aes(x=Weight, y=Displacement))
+theme_set(theme_bw())
+g <- g + geom_point(aes(col=Origin))
+g <- g + geom_smooth(method="loess", se=F)
+
+# Legends customization 
+g <- g + scale_color_manual(name="Origin", 
+                        labels = c("EU", 
+                                   "JP", 
+                                   "US"), 
+                        values = c("Europe"="blue", 
+                                   "Japan"="red", 
+                                   "US"="green"))
+
+# No legend 
+no_leg <- g + theme(legend.position="None") + labs(subtitle="No Legend")
+
+# Legend to the left 
+left_leg <- g + theme(legend.position="left") + labs(subtitle="Legend on the Left")
+
+# legend at the bottom and horizontal
+bot_leg <- g + theme(legend.key.size = unit(0.05, "cm"),
+                     legend.key.width = unit(0.05,"cm"),
+                     legend.position="bottom", legend.box = "horizontal") + 
+  labs(subtitle="Legend at Bottom")
+
+# legend at bottom-right, inside the plot 
+bot_right <- g + theme(legend.title = element_text(size=12, color = "salmon", face="bold"),
+           legend.justification=c(1,0), 
+           legend.position=c(0.95, 0.05),  
+           legend.background = element_blank(),
+           legend.key = element_blank()) + 
+  labs(subtitle="Legend: Bottom-Right Inside the Plot")
+
+# ggpubr's function to plot multiple graph in one plot
+ggarrange(no_leg, left_leg, bot_leg, bot_right + rremove("x.text"), 
+          labels = c("A", "B", "C", "D"),
+          ncol = 2, nrow = 2)
+```
+
+
+```{r, message=FALSE}
+g <- ggplot(cars2, aes(x=Weight, y=Displacement))
+g <- g + geom_point(aes(col=Origin), size=2)
+g <- g + scale_color_discrete(name="Origin", guide = FALSE)
+g <- g + geom_smooth(method="loess", se=F)
+
+# Sub data
+cars2_sub <- cars2[cars2$Displacement > 400, ]
+cars2_sub$Car <- ifelse(cars2_sub$Displacement > 400, cars2_sub$Car, "")
+
+# Plot text and label
+library(ggrepel)
+text_g <- g + geom_text_repel(aes(label=Car), size=2,
+                  data=cars2_sub) + 
+  theme(legend.position = "None")
+
+label_g <-g + geom_label_repel(aes(label=Car), size=2, 
+                  data=cars2_sub, alpha=0.25) + 
+  theme(legend.position = "None")
+
+# Define and add annotation
+library(grid)
+note_g <- g + annotation_custom(grid.text("This text is at x=0.2 and y=0.8!", 
+        x=0.4,  y=0.8, gp=gpar(col="firebrick", fontsize=10, fontface="bold")))
+
+ggarrange(text_g, label_g, note_g + rremove("x.text"), 
+          labels = c("A", "B", "C"),
+          ncol = 2, nrow = 2)
+```
+```{r, message=FALSE}
+g <- ggplot(cars2, aes(x=Weight, y=Displacement))
+g <- g + geom_point()
+g <- g + geom_smooth(method="loess", se=F)
+theme_set(theme_bw())
+
+# Facet wrap with free scales
+g + facet_wrap( ~ Origin, scales = "free") + 
+  labs(title="Displacement by weight", caption = "Source: mpg", 
+       subtitle="Ggplot2 - Faceting - Multiple plots in one figure with free scales")
+
+# manufacturer in rows and class in columns
+#g + facet_grid(Cylinders ~ Origin, scales = "free")  
+```
+```{r, message=FALSE}
+g <- ggplot(cars2, aes(x=Weight, y=Displacement))
+g <- g + geom_point()
+g <- g + geom_smooth(method="loess", se=F)
+theme_set(theme_bw())
+
+# Customize grid, axis and plot
+g + theme(panel.background = element_rect(fill = 'coral'),
+          panel.grid.major = element_line(colour = "burlywood", size=1.5),
+          panel.grid.minor = element_line(colour = "tomato", 
+                                          size=.25, 
+                                          linetype = "dashed"),
+          panel.border = element_blank(),
+          axis.line.x = element_line(colour = "blue", 
+                                     size=1.5, 
+                                     lineend = "butt"),
+          axis.line.y = element_line(colour = "green", 
+                                     size=1.5)) +
+    labs(title="Modified Background", 
+         subtitle="How to Change Major and Minor grid, Axis Lines, No Border")
+
+# Change Plot Margins 
+g + theme(plot.background=element_rect(fill="purple"), 
+          plot.margin = unit(c(2, 2, 1, 1), "cm")) +  # top, right, bottom, left
+    labs(title="Modified Background", subtitle="How to Change Plot Margin")  
+```
+
+# Conclusion
+
+As a conclusion you can see that there is many possibility of customization and you can see that you can pretty much shape the plot the way you want. There is many more different representation, here it's based on geom_point() but you can have lines, bars, texts, labels and so on. I'll let you have a look at the other function in the link below, if you need some more information about this document you can reach me for answers.
+
+If you want to take a loot at all the other functions : https://www.rdocumentation.org
