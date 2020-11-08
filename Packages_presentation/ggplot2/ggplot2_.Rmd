@@ -62,11 +62,12 @@ head(EuStockMarkets)
 
 Let's begin with the basics, the base plotting system, it's the integrated plotting tool of R. Like the many basics tools in R, its syntax is very minimalist and easy. Let's take a look at the example :
 
-```{r}
+```{r, out.height='45%'}
 plot(cars)
 plot(EuStockMarkets)
 plot(cars2$Weight,cars2$Displacement)
 ```
+
 
 The results is not bad, you get what you look for, which is a representation of your set but in terms of customization and for dataframe type of data this is not what you want to use. The syntax become much more complicated and it is not intuitive either when you try to go further and look for better looking results.
 
@@ -93,7 +94,7 @@ The results is not bad, you get what you look for, which is a representation of 
 Lattice is a far better plotting library than the base plot, you can have much more customization. For basic plot the syntax is not that hard and the basic plot provides you a more colorful result even without adding options.
 
 
-```{r, message=FALSE}
+```{r, out.height='45%', message=FALSE}
 library(lattice)
 xyplot(cars$dist ~ cars$speed)
 xyplot(EuStockMarkets)
@@ -207,6 +208,15 @@ ggplot(data, aes(x = x, y = y, color = color, size = size), alpha = '')+
 
 ## Study case
 
+First of all, one particularity of ggplot2 is how you create the plot, when you don't precise the type of representation you want (points, bars etc...), it will simply plot a blank rectangle and when you bring the adding system it gives the user all the tools to customize your plot as you please. 
+
+* In this first chunk, we will see the basic function to plot something with a minimum of customization :
+  + ggplot() : Is simply the function which initialize the plot, the first argument is the dataframe;
+  + aes() : As stated, this function is about the aesthetic of the plot, you can define the x and y dataset, we will see in another chunk that you can define color and size too;
+  + coord_cartesian() : Used to define xlim and ylim;
+  + geom_point() : This is one of the function used to precise the type of representation you want, in the argument you can specify many options like color and size;
+  + geom_smooth() : Add model, here lm means linear model
+  + labs() : Specify title, subtitle, axis label
 
 ```{r, message=FALSE}
 # Initialization of the plot
@@ -228,15 +238,21 @@ g <- g + labs(title="Displacement by weight", subtitle="From cars2 dataset",
 # Customize axis
 g <- g + scale_x_continuous(breaks=seq(2500, 5000, 250))
 
-# Changing theme
-g <- g + theme_classic() + labs(subtitle="Classic Theme")
-
 # Plotting
 plot(g)
 ```
 
 
 ## Theme customization syntax
+
+In the following chunks, we will learn more about how to customize the theme of the plot, which includes basicaly everything you can see in the plot.
+
+* In this chunk, we will see how to customize text element, color, size :
+  + aes() : Here we used it in geom_point(), and choose to have color and size represented by the dataset, here the Origin and the Acceleration of the cars;
+  + geom_smooth() : Add model, here loess for a non linear model, "se" is the confidence interval;
+  + theme() : Initialize the theme customization :
+    * element_text() : Customize the text size, police, color etc..
+    * the vjust and hjust (vertical, horizontal), modify the position of the text
 
 ```{r, message=FALSE}
 g <- ggplot(cars2, aes(x=Weight, y=Displacement))
@@ -269,6 +285,13 @@ g <- g + theme(plot.title=element_text(size=20,
 
 plot(g)
 ```
+
+* In this chunk, we will see how to customize the legend :
+  + ggpubr : we are going to use this library in order to plot multiple plots;
+  + scale_color_manual() : to change labels and colors, name is the legend you want to modify;
+  + the legend options are quite self explanatory;
+  + ggarange() : create a matrix containing the plot, rremove removed the x axis label.
+
 ```{r, message=FALSE}
 library(ggpubr)
 g <- ggplot(cars2, aes(x=Weight, y=Displacement))
@@ -311,8 +334,15 @@ ggarrange(no_leg, left_leg, bot_leg, bot_right + rremove("x.text"),
           ncol = 2, nrow = 2)
 ```
 
+  
+* In this chunk, we will see other geom_() functions :
+  + Instead of creating the same plot and just replace the point by text or label, we are going to create a new dataset from cars2 and we well keep only the row where displacement is superior to 400;
+  + ggrepel : is the library we used in order to have a more visible plot, the function it contains will make the text and label to repulse each other;
+    * geom_text_repel() and geom_label_repel() are the equivalent of geom_point() and label for the ggrepel library;
+    * alpha is the transparency option;
+  + annotation_custom() : you can put annotation on the plot, the library grid contain grid.text() where you can put your annotation.
 
-```{r, message=FALSE}
+```{r message=FALSE}
 g <- ggplot(cars2, aes(x=Weight, y=Displacement))
 g <- g + geom_point(aes(col=Origin), size=2)
 g <- g + scale_color_discrete(name="Origin", guide = FALSE)
@@ -324,23 +354,28 @@ cars2_sub$Car <- ifelse(cars2_sub$Displacement > 400, cars2_sub$Car, "")
 
 # Plot text and label
 library(ggrepel)
-text_g <- g + geom_text_repel(aes(label=Car), size=2,
+text_g <- g + geom_text_repel(aes(label=Car), size=3,
                   data=cars2_sub) + 
   theme(legend.position = "None")
 
-label_g <-g + geom_label_repel(aes(label=Car), size=2, 
-                  data=cars2_sub, alpha=0.25) + 
+label_g <-g + geom_label_repel(aes(label=Car), size=3, 
+                  data=cars2_sub, alpha=0.3) + 
   theme(legend.position = "None")
 
 # Define and add annotation
-library(grid)
-note_g <- g + annotation_custom(grid.text("This text is at x=0.2 and y=0.8!", 
-        x=0.4,  y=0.8, gp=gpar(col="firebrick", fontsize=10, fontface="bold")))
+# library(grid)
+# note_g <- g + annotation_custom(grid.text("This text is at x=0.2 and y=0.8!", 
+#        x=0.4,  y=0.8, gp=gpar(col="firebrick", fontsize=10, fontface="bold")))
 
-ggarrange(text_g, label_g, note_g + rremove("x.text"), 
-          labels = c("A", "B", "C"),
-          ncol = 2, nrow = 2)
+ggarrange(text_g, label_g, 
+          labels = c("A", "B"),
+          ncol = 2, nrow = 1)
 ```
+
+* In this chunk, we will see how to divide a plot into multiple other plot :
+  + facet_wrap() : you have to choose the data you are going to based your splitting on and you can change the scale to be free because the x and y data apply for every plot;
+  + facet_grid() :  for this function, the scale is different, the scaling is general and then the results are plotted in the grid according to the dataset you choose.
+
 ```{r, message=FALSE}
 g <- ggplot(cars2, aes(x=Weight, y=Displacement))
 g <- g + geom_point()
@@ -348,13 +383,22 @@ g <- g + geom_smooth(method="loess", se=F)
 theme_set(theme_bw())
 
 # Facet wrap with free scales
-g + facet_wrap( ~ Origin, scales = "free") + 
+# manufacturer in rows and class in columns
+g1 <- g + facet_grid( ~ Origin) 
+
+g2 <- g + facet_wrap( ~ Origin, scales = "free") + 
   labs(title="Displacement by weight", caption = "Source: mpg", 
        subtitle="Ggplot2 - Faceting - Multiple plots in one figure with free scales")
 
-# manufacturer in rows and class in columns
-#g + facet_grid(Cylinders ~ Origin, scales = "free")  
+ggarrange(g1, g2, 
+          labels = c("A", "B"),
+          ncol = 1, nrow = 2)
 ```
+
+* In this last chunk, we are going to see the customization of the panel background :
+  + The options here are quite clear too, element_line() and element_rect() are the two functions you need to customize plots;
+
+
 ```{r, message=FALSE}
 g <- ggplot(cars2, aes(x=Weight, y=Displacement))
 g <- g + geom_point()
@@ -362,7 +406,7 @@ g <- g + geom_smooth(method="loess", se=F)
 theme_set(theme_bw())
 
 # Customize grid, axis and plot
-g + theme(panel.background = element_rect(fill = 'coral'),
+g_panel <- g + theme(panel.background = element_rect(fill = 'coral'),
           panel.grid.major = element_line(colour = "burlywood", size=1.5),
           panel.grid.minor = element_line(colour = "tomato", 
                                           size=.25, 
@@ -377,9 +421,13 @@ g + theme(panel.background = element_rect(fill = 'coral'),
          subtitle="How to Change Major and Minor grid, Axis Lines, No Border")
 
 # Change Plot Margins 
-g + theme(plot.background=element_rect(fill="purple"), 
+g_background <- g + theme(plot.background=element_rect(fill="purple"), 
           plot.margin = unit(c(2, 2, 1, 1), "cm")) +  # top, right, bottom, left
     labs(title="Modified Background", subtitle="How to Change Plot Margin")  
+
+ggarrange(g_panel, g_background, 
+          labels = c("A", "B"),
+          ncol = 2, nrow = 1)
 ```
 
 # Conclusion
