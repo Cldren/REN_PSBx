@@ -8,6 +8,8 @@ output:
 
 ## Introduction
 
+FROM STATSBOMBR : https://github.com/statsbomb/StatsBombR
+
 In this document we are going to work on the package StatsBombR, which is well known for providing free data about football. The package contains various functions that facilitate the extraction of data and those functions are what we are going to study here with the help of the work of R(yo) : https://ryo-n7.github.io/2019-08-21-visualize-soccer-statsbomb-part-1/
 
 We are going to change the dataset used, but all the graphical representation will be extracted from his work in order to show a better looking work for an easier reading. Of course every chunk of code will be explain and you can go to my presentation document on ggplot2 to have further understanding.
