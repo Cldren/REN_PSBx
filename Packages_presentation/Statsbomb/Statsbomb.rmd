@@ -2,27 +2,79 @@
 title: "StatsBombR"
 author: "Claude REN"
 date: "11/07/2020"
-output:
-  pdf_document
+output: pdf_document
+header-includes:
+  - \include{"header.tex"}
+  - \usepackage{titling}
+  - \pretitle{\begin{center}
+    \includegraphics[width=2in,height=2in]{logo_statsbomb.jpg}\LARGE\\}
+  - \posttitle{\end{center}}
+  - \usepackage{fancyhdr}
 ---
+
+\pagebreak
+
+\addtolength{\headheight}{1.0cm} 
+\setlength{\textheight}{20.5cm} 
+\pagestyle{fancyplain}
+\fancyhf{}
+\lhead{StatsBombR presentation}
+\rhead{\includegraphics[height=1.2cm]{C:/Users/claud/OneDrive/Documents/GitHub/REN_PSBx/logo_psb.jpg}} 
+\renewcommand{\headrulewidth}{1pt} 
+\rfoot{Page \thepage}
+
+
 
 ## Introduction
 
-FROM STATSBOMBR : https://github.com/statsbomb/StatsBombR
+For user agreement and terms of use :
 
-In this document we are going to work on the package StatsBombR, which is well known for providing free data about football. The package contains various functions that facilitate the extraction of data and those functions are what we are going to study here with the help of the work of R(yo) : https://ryo-n7.github.io/2019-08-21-visualize-soccer-statsbomb-part-1/
+PACKAGE FROM STATSBOMBR : https://github.com/statsbomb/StatsBombR
 
-We are going to change the dataset used, but all the graphical representation will be extracted from his work in order to show a better looking work for an easier reading. Of course every chunk of code will be explain and you can go to my presentation document on ggplot2 to have further understanding.
+In this document we are going to work on the package StatsBombR, which is well known for providing free data about football. The package contains various functions that facilitate the extraction of data and those functions are what we are going to study here with the help of the work of Ryo :
 
-So the dataset we are going to study here is the women premier league, and more specificaly a match between Arsenal WFC and Everton LFC. We will study expected goal (xG), passes in the final third and the prefered link up by the players.
+https://ryo-n7.github.io/2019-08-21-visualize-soccer-statsbomb-part-1/
 
-```{r, message=FALSE}
+We are going to change the dataset used, but all the graphical representation will be extracted from his work in order to show a better looking work for an easier reading. I wanted to show what you could do with those data even though the main purpose of this presentation is not to show results or anything but to explain how some of the package's functions work. Every chunk of code will be explain and you can go to my presentation document on ggplot2 to have further understanding.
+
+So the dataset we are going to study here is the women premier league, and more specifically a match between Arsenal WFC and Chelsea FCW. We will study expected goal (xG), passes in the final third and the preferred link up by the players.
+
+## Packages presentation
+
+* We are going to use different other package during this study case :
+  + Tidyverse : A basic package containing diverse very popular and useful packages like, ggplot2 and dplyr.
+    - ggplot2 : For data visualization, you can find more in my other presentation.
+    - dplyr : For data manipulation, contain function like mutate(), filter().
+  + ggrepel : Extension of ggplot2, more detail in my ggplot2 presentation.
+  + ggupset : Extension of ggplot2, replace the x-axis of ggplot2 by a matrix.
+  + tinytex : Make the conversion to .tex easier.
+
+```{r, message=FALSE, include=FALSE}
 library(tidyverse)
 library(StatsBombR)
 library(ggrepel)
 library(tinytex)
+library(ggupset)
 ```
-```{r, message=FALSE}
+```{r, message=FALSE, eval=FALSE}
+library(tidyverse)
+library(StatsBombR)
+library(ggrepel)
+library(tinytex)
+library(ggupset)
+```
+
+## Choose you database
+
+Before starting, and explaining the function I used for this study, it is important to precise that StatsBomb provides free data but if you have a premium access, you have the possibility to work on all the data they have and use ALL the function of the package. When you don't have that access, there are functions that you can't use because you need an account to use the function. So in the following study only free function are showed.
+
+The first thing to do, is to look at the competition and for that you simply use the function FreeCompetitions(), after that in my case I wanted to study the Women Premier League, and the competition_id is 37. With the filter() function of dplyr you can filter all the competition to only keep the one you want. With that you can extract all free matches avalaible with FreeMatches().
+
+When it is ready you apply the function StatsBombFreeEvents() which return all the data of matches selected. Then the function allclean() will format the data for R use by adding extra information. 
+
+The extraction of all the data takes time, so the better solution is to save the cleansed data, and to not run this chunk too often.
+
+```{r, message=FALSE,eval=FALSE}
 comps <- FreeCompetitions()
 
 FAW_match <- comps %>% 
@@ -32,25 +84,77 @@ FAW_match <- comps %>%
 FAW <- StatsBombFreeEvents(MatchesDF = FAW_match)
 
 FAW_clean <- FAW %>% 
-  allclean()  
-```
-```{r, message=FALSE}
-AWFC <- FAW_clean %>% 
-  filter(match_id == 19811) %>% 
-  mutate(shot.statsbomb_xg = if_else(is.na(shot.statsbomb_xg), 
-                                     0, shot.statsbomb_xg))
+  allclean()
 
-AWFC_xg <- AWFC %>% 
+saveRDS(FAW_clean, 
+        file = ("C:/Users/claud/OneDrive/Documents/GitHub/REN_PSBx/
+                Packages_presentation/Statsbomb/data/FAW_clean.RDS"))
+```
+
+## Expected goal (xG)
+
+Here we are going to see how to prepare the data and extract information for plotting the expected goal. 
+
+After loading the data, we can filter again in order to look at only one match, same system as the competition, you can just have a look at the data and find the match_id you want to study. Or if you study a larger database, you can do something similar by filtering by team.name and use the distinct() function on match_id to extract all the match id of the team you selected. The function mutate() is used to write off NA by 0 in the xG column with the function if_else(condition, true, false).
+
+:::::: {.columns}
+::: {.column width="48%" data-latex="{0.48\textwidth}"}
+
+```{r message=FALSE}
+FAW_clean = readRDS("data/FAW_clean.RDS",
+                    refhook = NULL)
+
+Find_match_id <- FAW_clean %>%
+  filter(team.name == "Arsenal WFC") %>%
+  distinct(match_id)
+
+head(Find_match_id)
+```
+:::
+::: {.column width="4%" data-latex="{0.04\textwidth}"}
+\ 
+:::
+:::::: {.column width="48%" data-latex="{0.48\textwidth}"}
+
+```{r message=FALSE}
+AWFC_ <- FAW_clean %>% 
+  filter(match_id == 19736) %>% 
+  mutate(shot.statsbomb_xg =
+           if_else(is.na(shot.statsbomb_xg), 
+                   0, shot.statsbomb_xg))
+```
+
+
+In the chunk below, we are creating a new data frame, we use the group_by() function and then summarize() which will create the new data frame according to the number of group, here two, with tot_xg as a new column with the total of xG of the two team. And with mutate we add a last column with text summarizing the data for the plot.
+
+:::
+::::::
+
+\newline
+
+```{r, message=FALSE}
+AWFC_xg <- AWFC_ %>% 
   group_by(team.name) %>% 
   summarize(tot_xg = sum(shot.statsbomb_xg) %>% signif(digits = 2)) %>% 
   mutate(team_label = glue::glue("{team.name}: {tot_xg} xG"))
 
-AWFC <- AWFC %>% 
+head(AWFC_xg)
+```
+
+We join the new data frame, by team name, and with mutate() we add the player name and the value of the xG when there is a goal which will be used for the plot too.
+
+```{r message=FALSE}
+AWFC <- AWFC_ %>% 
   left_join(AWFC_xg, by = "team.name") %>% 
   mutate(player_label = case_when(
-    shot.outcome.name == "Goal" ~ glue::glue("{player.name}: {shot.statsbomb_xg %>% signif(digits = 2)} xG"),
+    shot.outcome.name == "Goal" ~ glue::glue(
+      "{player.name}: {shot.statsbomb_xg %>% signif(digits = 2)} xG"),
     TRUE ~ ""))
 ```
+
+For the plot, we are using ggplot2, most of the function are explained on my other document, so I will briefly go through all the ggplot chunk of the study. So we use geom_rect() and geom_label_repel() (of ggrepel package), it shows the name of the player who scored with the xG associated with it because of the glue package. The function geom_point() represent all the xG value overtime, with the size showing the value of the xG. 
+
+We can note that we used facet_wrap() to show the two teams xG separately. The other function of customization are basic.
 
 ```{r, message=FALSE}
 AWFC_xg_timelineplot <- AWFC %>% 
@@ -71,9 +175,9 @@ AWFC_xg_timelineplot <- AWFC %>%
              aes(x = minute, y = 0, 
                  size = shot.statsbomb_xg, fill = team.name)) +
   scale_color_manual(values = c("Arsenal WFC" = "#a50044",
-                                "Everton LFC" = "black")) +
+                                "Chelsea FCW" = "black")) +
   scale_fill_manual(values = c("Arsenal WFC" = "#a50044",
-                                "Everton LFC" = "white")) +
+                               "Chelsea FCW" = "white")) +
   facet_wrap(vars(team_label), ncol = 1) +
   scale_x_continuous(breaks = seq(0, 95, by = 5),
                      labels = c(seq(0, 40, by = 5), "HT", 
@@ -96,6 +200,11 @@ AWFC_xg_timelineplot <- AWFC %>%
   
 AWFC_xg_timelineplot
 ```
+
+In this part, we are still going to look at the xG, but we will plot the cumulative sum of it. For that the step are a similar to the previous plot, but here we need more information like the time and the sum at this instant and not only the total of xG. We start by using group_by() on minute, team.name and period and then summarize() to have the sum of xG at every minute of the two team in each period but what we want is the cumulated xG overtime so we need to do some more work. After ungroup() we group_by() team.name like in the previous chunk, and instead of adding a total xG column we add the accumulate sum. Lag() is used to initialize the rollsum value at 0 and then at every minute if the xG is not 0 we add it to the rollsum value.
+
+After that, we prepare a the data frame for the plot, by joining the data and doing the same thing as previously we add columns for the goal event in order to display it in the plot in a good looking way.
+
 ```{r, message=FALSE}
 AWFC_rollsum <- AWFC %>% 
   group_by(minute, team.name, period) %>% 
@@ -111,14 +220,18 @@ AWFC_rollsum <- AWFC %>%
   ))
 
 AWFC_rollsum <- AWFC_rollsum %>% 
-  left_join(AWFC %>% filter(shot.outcome.name == "Goal") %>% select(minute, shot.outcome.name, team.name, player.name), 
+  left_join(AWFC %>% filter(shot.outcome.name == "Goal")
+            %>% select(minute, shot.outcome.name, team.name, player.name), 
             by = c("minute", "team.name")) %>% 
   mutate(rollsum_goal = rollsum + sumxg,
          minute_goal = minute + 1,
          player_label = case_when(
-           shot.outcome.name == "Goal" ~ glue::glue("{player.name}: {sumxg %>% signif(digits = 2)} xG"),
+           shot.outcome.name == "Goal" ~ glue::glue(
+             "{player.name}: {sumxg %>% signif(digits = 2)} xG"),
            TRUE ~ ""))
 ```
+
+Now for the plot, pull() take the value of the previous data column tot_xg for the y-axis scale. The other element have already been explained in the previous chunk.
 
 ```{r, message=FALSE}
 tot_awfc_df <- AWFC_xg %>% 
@@ -137,23 +250,22 @@ AWFC_rollsumxg_plot <- AWFC_rollsum %>%
              aes(x = minute_goal, y = rollsum_goal, color = team.name), show.legend = FALSE,
              size = 5, shape = 21, fill = "white", stroke = 1.25) +
   scale_color_manual(values = c("Arsenal WFC" = "#a50044",
-                                 "Everton LFC" = "#000000"),
+                                 "Chelsea FCW" = "#000000"),
                      labels = c("Arsenal WFC", 
-                                "Everton LFC")) +
+                                "Chelsea FCW")) +
   scale_fill_manual(values = c("Arsenal WFC" = "#a50044",
-                               "Everton LFC" = "#000000")) +
+                               "Chelsea FCW" = "#000000")) +
   scale_x_continuous(breaks = c(seq(0, 90, by = 5), 94),
                      labels = c(seq(0, 40, by = 5), "HT", 
                                 seq(50, 90, by = 5), "FT"),
                      expand = c(0.01, 0),
                      limits = c(0, 94)) +
   scale_y_continuous(sec.axis = sec_axis(~ ., breaks = tot_awfc_df)) +
-  labs(title = "Everton LFC: 1 \nArsenal WFC: 3",
-       subtitle = "December 10, 2011 (Matchday 16)",
+  labs(title = "Chelsea FCW: 0 \nArsenal WFC: 5",
        x = NULL,
        y = "Expected Goals") +
   theme_minimal() +
-  theme(plot.title = element_text(size = 40),
+  theme(plot.title = element_text(size = 30),
         plot.subtitle = element_text(size = 18, color = "grey20"),
         axis.title = element_text(size = 18, color = "grey20"),
         axis.text = element_text(size = 16, face = "bold"),
@@ -164,6 +276,10 @@ AWFC_rollsumxg_plot <- AWFC_rollsum %>%
 
 AWFC_rollsumxg_plot
 ```
+
+## Number of pass in the final third
+
+In football, expected goal alone is not a good way to apprehend the domination of a team during a game. So we have to look at other stat to find a better understanding of the game. For example, we can look at the number of pass in the final third of the opponent to see if before the goal or dangerous occasion (bigger xG) they were actually dominating the game or not. For that we are going to create a data frame containing the number of pass of each team in a 5 minutes window. Like before, we group by team and minute, then we count everytime the action is labeled pass and that the location is further than 80m. So at every minute of the game, we have the number of pass for each team.
 
 ```{r, message=FALSE}
 roll_final_pass <- AWFC %>% 
@@ -176,16 +292,18 @@ roll_final_pass <- AWFC %>%
   ungroup()
 ```
 
+In a match there can be period when one team doesn't play any pass. In order to correct this problematic We create a data frame that contain all the combination of minutes during the match and we will use crossing() to do that.
+
+Now that we have data for every minute of the game for each team we use rolling_sum(), a function with which we are going to sum the pass during a window of 5min.
+
+Then with the same process we create a new data frame containing the number of pass of each team during a 5min window.
+
 ```{r, message=FALSE}
 first_min <- AWFC$minute %>% unique() %>% first()
 last_min <- AWFC$minute %>% unique() %>% last()
 minute <- c(first_min:last_min)
-team.name <- c("Everton LFC", "Arsenal WFC")
+team.name <- c("Chelsea FCW", "Arsenal WFC")
 
-crossing(minute, team.name) %>% slice(26:32)
-```
-
-```{r, message=FALSE}
 rolling_sum <- tibbletime::rollify(.f = sum, window = 5)
 
 roll_awfc_pass <- crossing(minute, team.name) %>%
@@ -204,6 +322,8 @@ roll_awfc_pass <- crossing(minute, team.name) %>%
 roll_awfc_pass %>% head(5)
 ```
 
+Not much change for the plot. But in term of result we can see that, Chelsea dominated had the ball more time in the final third but, on the counter Arsenal managed to score 3 of their goals when they had not the control of the ball.
+
 ```{r, message=FALSE}
 finalthird_rollingplot <- roll_awfc_pass %>% 
   ggplot(aes(x = minute, y = rollsum, 
@@ -221,16 +341,14 @@ finalthird_rollingplot <- roll_awfc_pass %>%
   scale_y_continuous(breaks = seq(0, 30, by = 5),
                      labels = seq(0, 30, by = 5)) +
   scale_fill_manual(values = c("Arsenal WFC" = "#a50044",
-                               "Everton LFC" = "white"),
+                               "Chelsea FCW" = "white"),
                     labels = c("Arsenal WFC", 
-                               "Everton LFC")) +
-  labs(title = "Everton LFC: 1 \nArsenal WFC: 3",
-       subtitle = "December 10, 2011 (Matchday 16)",
+                               "Chelsea FCW")) +
+  labs(title = "Chelsea FCW: 0 \nArsenal WFC: 5",
        x = NULL,
        y = "Final Third Passes") +
   theme_minimal() +
-  theme(plot.title = element_text(size = 40),
-        plot.subtitle = element_text(size = 18,  color = "grey20"),
+  theme(plot.title = element_text(size = 30),
         axis.title = element_text(size = 18, color = "grey20"),
         axis.text = element_text(size = 16, face = "bold"),
         panel.grid.minor = element_blank(),
@@ -242,11 +360,20 @@ finalthird_rollingplot <- roll_awfc_pass %>%
 finalthird_rollingplot
 ```
 
-```{r}
+## Prefered link up play
+
+We can also look at the link up between players. We mutate the pass outcome column and clean the NA value. Then we filter the data by team and pass completed during open play ending inside the box. We select the information we want, player providing the pass, the receiver, season and location information.
+
+We group by season name and we create a columns where we add the total of time the same association of players. For the plot we use ggupset, which mean we need to add a new variable of a list form. That's why we create the pass_duo variable containing the passer's name and the receiver's name.
+
+```{r,include=FALSE}
+comps <- FreeCompetitions()
+```
+
+```{r, include=FALSE,message=FALSE}
 AWFC_clean <- FAW_clean %>% 
   left_join(comps %>% select(season_id, season_name), by = "season_id")
 ```
-
 
 ```{r, message=FALSE}
 pass_received_all_box <- AWFC_clean %>% 
@@ -254,10 +381,8 @@ pass_received_all_box <- AWFC_clean %>%
   filter(type.name == "Pass",
          team.name == "Arsenal WFC",
          pass.outcome.name == "Complete",
-         ## Only passes from open play
          !play_pattern.name %in% c("From Corner", "From Free Kick",
                                    "From Throw In"),
-         ## Only passes that ended up inside the box:
          pass.end_location.x >= 102 & pass.end_location.y <= 62 &
            pass.end_location.y >= 18) %>% 
   select(player.name, pass.recipient.name, 
@@ -275,15 +400,9 @@ pass_received_all_box <- AWFC_clean %>%
          pass_duo,season_name)
 ```
 
-```{r}
-pass_received_all_box %>% 
-  group_by(season_name) %>% 
-  nest()
-```
+For the last plot, we used the function nest() which create, with the help of group_by(), a column called data with all the information of the season. 
 
-
-```{r}
-library(ggupset)
+```{r, message=FALSE}
 all_pass_nested_box <- pass_received_all_box %>% 
   group_by(season_name) %>% 
   nest() %>%
@@ -320,76 +439,16 @@ all_pass_nested_box <- pass_received_all_box %>%
         panel.grid.major.x = element_blank(),
         axis.ticks = element_blank())))
 
-glimpse(all_pass_nested_box)
-```
-```{r, message=FALSE}
-all_pass_nested_1112 <- all_pass_nested_box$plot[[2]] +
-  scale_y_continuous(labels = seq(0, 15, by = 5),
-                     breaks = seq(0, 15, by = 5),
-                     limits = c(0, 15))
+all_pass_nested_1819 <- all_pass_nested_box$plot[[1]] +
+  scale_y_continuous(labels = seq(0, 45, by = 5),
+                     breaks = seq(0, 45, by = 5),
+                     limits = c(0, 45))
 
-all_pass_nested_1112
+all_pass_nested_1819
 ```
 
-```{r}
-## Data
-awfc_all_shot_assist <- AWFC_clean %>% 
-  mutate(pass.outcome.name = fct_explicit_na(pass.outcome.name, "Complete")) %>%
-  filter(team.name == "Arsenal WFC",
-         !is.na(pass.shot_assist),
-         !play_pattern.name %in% c("From Corner", "From Free Kick",
-                                   "From Throw In")) %>% 
-  select(player.name, pass.recipient.name, 
-         season_id, season_name,
-         position.name, position.id,
-         location.x, location.y,
-         pass.end_location.x, pass.end_location.y,
-         contains("pass")) %>% 
-  group_by(season_name) %>% 
-  add_count(player.name, pass.recipient.name, name = "pass_num") %>% 
-  ungroup() %>% 
-  mutate(player.name = glue::glue("{player.name}: {pass_num}")) %>% 
-  mutate(pass_duo = map2(player.name, pass.recipient.name, ~c(.x, .y))) %>% 
-  select(player.name, pass.recipient.name, pass_num, 
-         season_name, pass_duo)
+## Conclusion
 
-## Nest plots
-AWFC_nested_all_shot_assist <- awfc_all_shot_assist %>% 
-  group_by(season_name) %>% 
-  nest() %>%
-  mutate(plot = map2(
-    data, season_name,
-    ~ ggplot(data = .x, aes(x = pass_duo)) +
-      geom_bar(fill = "#a70042") + 
-      scale_x_upset(n_intersections = 10,
-                    expand = c(0.01, 0.01)) +
-      scale_y_continuous(expand = c(0.04, 0.04), limits = c(0, 30)) +
-      labs(title = glue::glue("Shot Assists ({.y})"),
-           subtitle = "'Name: Number' = Passer, 'No Number' = Pass Receiver",
-           caption = "Source: StatsBomb",
-           x = NULL, y = "Number of Passes") +
-      theme_combmatrix(
-        text = element_text( 
-                            color = "#004c99"),
-        plot.title = element_text( size = 20,
-                                  color = "#a70042"),
-        plot.subtitle = element_text( size = 16,
-                                     color = "#004c99"),
-        axis.title = element_text( size = 14,
-                                  color = "#004c99"), 
-        axis.text.x = element_text( size = 12,
-                                   color = "#004c99"),
-        axis.text.y = element_text( size = 12,
-                                   color = "#004c99"),
-        panel.background = element_rect(fill = "white"),
-        combmatrix.panel.point.size = 4,
-        combmatrix.panel.point.color.fill = "#a70042",
-        combmatrix.panel.line.color = "#a70042",
-        panel.grid = element_line(color = "black"),
-        panel.grid.major.x = element_blank(),
-        axis.ticks = element_blank())))
+This conclude the study of the Arsenal Women FC, of course there is many more function in the StatsBombR package. Most of them are function that simplify the extraction of data you look for like opposing team, goalkeeper or lineups information. But I thought it was not worth showing if I hadn't results to display at the end. That's why I only explained the basic function that you need to use to start your analyze. 
 
-## Plot 2011/2012
-AWFC_nested_all_shot_assist$plot[[2]]
-```
-
+If you are looking for the other function you can do to : https://www.rdocumentation.org/packages/StatsBombR/versions/0.1.0
