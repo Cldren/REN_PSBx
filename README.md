@@ -12,7 +12,13 @@ Have a good read !
 
 I will put information about our 2 courses in R and Mathematics.
 
-Last updates : 07/11/2020
+Last updates : 11/11/2020
+
+Modification of the ggplot2 file, PSB logo added.
+
+Upload of the presentation of the second package on StatsBombR.
+
+07/11/2020
 
 Upload of the presentation of the first package on ggplot2, have a good read.
 
