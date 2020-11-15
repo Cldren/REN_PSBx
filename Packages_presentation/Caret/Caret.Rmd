@@ -1,0 +1,22 @@
+---
+title: "Caret"
+author: "Claude REN"
+date: "15/11/2020"
+output: pdf_document
+header-includes:
+  - \include{"header.tex"}
+  - \usepackage{fancyhdr}
+---
+
+\pagebreak
+
+\addtolength{\headheight}{1.0cm} 
+\setlength{\textheight}{20.5cm} 
+\pagestyle{fancyplain}
+\fancyhf{}
+\lhead{ggplot2 presentation}
+\rhead{\includegraphics[height=1.2cm]{C:/Users/claud/OneDrive/Documents/GitHub/REN_PSBx/logo_psb.jpg}} 
+\renewcommand{\headrulewidth}{1pt} 
+\rfoot{Page \thepage}
+
+## Introduction
