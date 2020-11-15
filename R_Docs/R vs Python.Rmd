@@ -28,7 +28,7 @@ In this .pdf you will find all the basics of R and its equivalence in Python. Th
 ::: {.column width="48%" data-latex="{0.48\textwidth}"}
 ### Calculate with R
 
-```{r, eval=TRUE}
+```{r, eval=TRUE, comment=""}
 # No import
 10*(1+3-2.4)
 10^2
@@ -52,7 +52,7 @@ a column separator -->
 
 ### Calculate with Python
 
-```{python, eval=TRUE}
+```{python, eval=TRUE, comment=""}
 import numpy as np
 10*(1+3-2.4)
 10^2        # Not correct !
@@ -76,7 +76,7 @@ print(a)
 
 ### Vector operations with R
 
-```{r, eval=TRUE}
+```{r, eval=TRUE, comment=""}
 v <- c(10, 20, 30)
 v
 length(v)
@@ -106,7 +106,7 @@ a column separator -->
 
 ### Vector operations with Python
 
-```{python, eval=TRUE}
+```{python, eval=TRUE, comment=""}
 v = np.array([10, 20, 30])
 v
 len(v)
@@ -148,7 +148,7 @@ In order to find the same result in Python as in R, you have to precise ddof = 1
 
 ### Vector manipulation with R
 
-```{r, eval=TRUE}
+```{r, eval=TRUE, comment=""}
 u <- c(1, 2, 3, 4, 5)
 u[2]
 u[3:5]
@@ -170,7 +170,7 @@ a column separator -->
 
 ### Vector manipulation with Python
 
-```{python, eval=TRUE}
+```{python, eval=TRUE, comment=""}
 u = np.array([1, 2, 3, 4, 5])
 u[1]
 u[2:5]
@@ -189,11 +189,11 @@ u = np.array([5 ,5 ,5 ,32,62,49])
 #### Equivalence str() R in Python :
 The function str() in R show you the structure of your variable, it can be very useful and you'll will find no equivalent function in Python. The only way to get the same information is to create a function :
 
-```{r}
+```{r, comment=""}
 str(u)
 ```
 
-```{python}
+```{python, comment=""}
 import pandas as pd
 du = pd.DataFrame(u)
 print(str(du.info()) + "\n"+ str(u))
@@ -204,7 +204,7 @@ You can see above that the str() function used in the python chunks is not at al
 \newline
 The one below is for data.frame, keep it for future usage :
 
-```{python, eval = FALSE, error = FALSE}
+```{python, eval = FALSE, error = FALSE, comment=""}
 def rstr(df): 
     structural_info = pd.DataFrame(index=df.columns)
     structural_info['unique_len'] = df.apply(lambda x: len(x.unique())).values
@@ -221,7 +221,7 @@ rstr(df)
 
 ### Vector manipulation with R
 
-```{r}
+```{r, comment=""}
 options(width = 30)
 sum(is.na(u))
 u_ <- c(NA,u,NA,NA)
@@ -252,7 +252,7 @@ a column separator -->
 
 ### Vector manipulation with Python
 
-```{python}
+```{python, comment=""}
 np.set_printoptions(
     suppress=True,linewidth=40)
 du.isna().sum()
@@ -271,7 +271,7 @@ np.quantile(u, q = 0.5) # q represent the %
 du.describe()   # It works like summary()
 ```
 
-```{python}
+```{python, comment=""}
 np.nanstd(u_, ddof = 1)
 np.corrcoef(v,w)
 np.sort(v)
@@ -281,13 +281,13 @@ np.argsort(w)
 # No easy equivalence for the "max"
 ```
 
-```{python, include = FALSE}
+```{python, include = FALSE, comment=""}
 v = np.array([10,20,30,30,60,50])
 w = np.array([20,10,31,31,61,51])
 u = np.array([5 ,5 ,5 ,32,62,49])
 ```
 
-```{python}
+```{python, comment=""}
 z = np.maximum(u,v)
 np.maximum(z,w) # Same with minimum()
 ```
@@ -303,7 +303,7 @@ np.maximum(z,w) # Same with minimum()
 
 ### Vector manipulation with R
 
-```{r}
+```{r, comment=""}
 options(width = 30)
 cumsum(v)
 cumprod(v)
@@ -313,7 +313,7 @@ cummin(w)
 
 ### Boolean operation with R
 
-```{r}
+```{r, comment=""}
 a <- 1 
 b <- 2
 (a == 1)
@@ -345,7 +345,7 @@ a column separator -->
 
 ### Vector manipulation with Python
 
-```{python}
+```{python, comment=""}
 np.cumsum(v)
 np.cumprod(v)
 dw = pd.DataFrame(w)
@@ -355,13 +355,13 @@ dw.cummin().transpose()
 
 ### Boolean operations with Python
 
-```{python, include = FALSE}
+```{python, include = FALSE, comment=""}
 a = 1 
 b = 2
 ```
 
 
-```{python}
+```{python, comment=""}
 bool(a == 1)
 bool(a == b)
 bool(a <= b)
@@ -389,7 +389,7 @@ np.where(v == 30)
 
 ### Boolean operations with R
 
-```{r}
+```{r, comment=""}
 which(v == max(v))
 which(v == min(v))
 s <- 1*t
@@ -409,7 +409,7 @@ a column separator -->
 
 ### Boolean operations with Python
 
-```{python}
+```{python, comment=""}
 np.where(v == max(v))
 np.where(v == min(v))
 s = 1*t
