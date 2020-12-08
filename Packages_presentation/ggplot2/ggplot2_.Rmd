@@ -446,3 +446,13 @@ ggarrange(g_panel, g_background,
 As a conclusion you can see that there is many possibility of customization and you can see that you can pretty much shape the plot the way you want. There is many more different representation, here it's based on geom_point() but you can have lines, bars, texts, labels and so on. I'll let you have a look at the other function in the link below, if you need some more information about this document you can reach me for answers.
 
 If you want to take a loot at all the other functions : https://www.rdocumentation.org
+
+# Bibliography
+
+Selva Prabhakaran. 2016-2017. “The Complete ggplot2 Tutorial - Part1 | Introduction To ggplot2 (Full R code)” http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html
+
+Selva Prabhakaran. 2016-2017. “The Complete ggplot2 Tutorial - Part 2 | How To Customize ggplot2 (Full R code)” http://r-statistics.co/Complete-Ggplot2-Tutorial-Part2-Customizing-Theme-With-R-Code.html
+
+Roger Peng. 2013."ggplot2_part1" https://github.com/rdpeng/CourseraLectures/blob/master/ggplot2_part1.pptx
+
+Thomas Lin Pedersen. 2020. "ggplot2 v3.3.2" https://www.rdocumentation.org/packages/ggplot2/versions/3.3.2

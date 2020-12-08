@@ -452,3 +452,10 @@ all_pass_nested_1819
 This conclude the study of the Arsenal Women FC, of course there is many more function in the StatsBombR package. Most of them are function that simplify the extraction of data you look for like opposing team, goalkeeper or lineups information. But I thought it was not worth showing if I hadn't results to display at the end. That's why I only explained the basic function that you need to use to start your analyze. 
 
 If you are looking for the other function you can do to : https://www.rdocumentation.org/packages/StatsBombR/versions/0.1.0
+
+# Bibliography
+
+Ryo. 2019. “Visualizing Soccer with StatsBomb Data and R, Part 1: Simple xG and Pass Partner Plots!” https://ryo-n7.github.io/2019-08-21-visualize-soccer-statsbomb-part-1/
+
+Derrick Yam. 2020. "StatsBombR v0.1.0
+" https://www.rdocumentation.org/packages/StatsBombR/versions/0.1.0
