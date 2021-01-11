@@ -151,13 +151,16 @@ Pour découvrir des caractéristiques statistiques significatives, les auteurs e
 
 ## 3.2.  Compréhension des formules mathématiques du papier 3
 
-La méthode d’apprentissage utilisée se base sur la méthode maximum de ressemblance (loglikelihood) que celle utilisée le papier “Dropout Prediction over Weeks in MOOCs via Interpretable Multi-Layer Representation Learning” pour l’apprentissage de cooccurrence.
-
-Elle permet d’extraire les paramètres du modèle contenu dans les fonctions de représentation f(u) et f(v) qui décrivent le mieux les données utilisées pour l’apprentissage.  
-
 \begin{equation}
 \underset{f}{max}\sum_{u\in V}log(\prod_{v_i\in N_s(u)}\frac{exp(f(u).f(v_i))}{\sum_{v \in V}exp(f(u).f(v))})
 \end{equation}
+
+Cette équation est utilisée pour caractériser l'homophilie, pour se faire, ils commencent par parcourir le voisinage de chaque noeud qui est censé représenté les personnes avec qui le noeud est le plus proche. Ce parcours de noeud est caractérisé par la fonction 
+$p(c_i=u|c_{i-1}=v) = \frac{\alpha_{pq}w_{uv}}{Z}$ lorsque les deux étudiants sont allés à la bibliotèque en même temps et 0 sinon.Dans cette formule Z est une constante de normalisation et $\alpha_{pq}$ est un coefficient qui varie selon la distance la plus courte entre les deux noeuds.
+
+Si l'on revient sur l'équation du début, le fait d'avoir parcouru le voisinage des noeuds permettent donner un ensemble qui est appelé $N_s(u)$. Les fonctions f(.) sont des fonctions de représentation des noeuds en question.
+
+La méthode d’apprentissage utilisée se base sur la méthode maximum de ressemblance (loglikelihood) que celle utilisée le papier “Dropout Prediction over Weeks in MOOCs via Interpretable Multi-Layer Representation Learning” pour l’apprentissage de cooccurrence.
 
 ## 3.3 Résultat obtenu du papier 3
 
